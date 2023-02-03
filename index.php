@@ -1,3 +1,21 @@
+    <?php 
+            $srvname ='mysql:host=localhost;dbname=agence_immobilière';
+            $user = 'root';
+            $pass = "";
+            //connect
+            try {
+                $conn = new PDO($srvname,$user,$pass); //start A new Connection with PDO
+            }
+            catch  (PDOException $e ) {
+                echo 'Failed' . $e -> getMessage();
+            }
+            // affichage
+            $annonces = $conn->query('SELECT * FROM `annonce`');
+            $annonces->execute();
+            $response = $annonces->fetchAll();
+                   
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,76 +23,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Images</th>
-                <th>Description</th>
-                <th>Superficie</th>
-                <th>Adresse</th>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Type</th>
-             </tr>
-        </thead>
-    </table>
-    <?php 
-            $dsn ='mysql:host=localhost;dbname=agence_immobilière';
-            $user= 'root';
-            $pass =" ";
-            //connect
-            try {
-                $db = new PDO($dsn,$user,$pass); //start A new Connection with PDO
-            }
-            catch  (PDOException $e ) {
-                echo 'Failed' . $e -> getMessage();
-            }
-            // affichage
-             $annonces = $db->query('SELECT * FROM `annonces`');
-                    echo '<tbody>';
-                              while($ligne = $annonces->fetch()){
-                                    echo '<tr>' ;
-                                        echo '<td>';
-                                            echo $ligne['id']; 
-                                        echo '</td>';
+     <!-- Navigation-->
+     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <div class="container px-4 px-lg-5 p-2">
+                <a class="navbar-brand text-light" href="#!">LA CLE FACILE</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active text-light" aria-current="page" href="#!">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active text-light" href="#!"> Annonces</a></li>
+                        <li class="nav-item"><a class="nav-link active text-light" href="#!"> Contact</a></li>
+                    </ul>
+                    <form class="d-flex">
+                        <button class="btn btn-outline-light text-light" type="submit">
+                            <i class="bi-cart-fill me-1 text-light"></i>
+                            Cart
+                            <span class="badge bg-dark  ms-1 rounded-pill text-light">0</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <img src="img/header.jfif" class="rounded mx-auto d-block p-5  w-75 h-50 " alt="YOUR DREAM START LIVING">
 
-                                        echo '<td>';
-                                            echo $ligne['Titre']; 
-                                        echo '</td>';
+            <!-- CARDS -->
+            <div class="row col-12 justify-content-center m-0 gap-4 px-5" id="cards">
+                    <?php
+                        foreach ($response as $ligne)
+                        echo "
+                        <div class='card col-md-5 col-lg-3 p-0 m-0'>
+                            <img src=".$ligne['image']." class'card-img-top'>
+                            <h4 class='modal-title'>".$ligne['titre']."</h4>
+                            <h5 style='color:#3F34B8;'>".$ligne['Montant']."</h5>
+                            <p style='font-size:15px; color:red'>CONSULTER PRIX</p>
+                            <button class='btn btn-primary' type='button'>Détails</button>
+                        </div>"
+                ?>
+            </div>
+            <!-- POPUP -->
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <?php
+                            foreach($response as $ligne)
+                            echo"
+                            <div class='modal-header'>
+                                <h5 class='modal-title'>".$ligne['titre']."</h5>
+                            </div>
+                            <div class='modal-body'>
+                                <img src='".$ligne['image']."'>
+                                <p></p>
+                            </div>"
+                        ?>
+                    </div>
+                </div>
+            </div>
 
-                                        echo '<td>';
-                                             echo $ligne['Images']; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne['Description']; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne['Superficie']; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne['Adresse']; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne['Montant']; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne["Date"]; 
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                             echo $ligne["Type"]; 
-                                        echo '</td>';
-                                    echo '</tr>' ;
-                              }
-                    echo '</tbody>';
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>  
 </body>
 </html>
