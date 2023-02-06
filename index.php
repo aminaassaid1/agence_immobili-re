@@ -1,4 +1,4 @@
-    <?php 
+<?php 
             $srvname ='mysql:host=localhost;dbname=agence_immobilière';
             $user = 'root';
             $pass = "";
@@ -9,13 +9,13 @@
             catch  (PDOException $e ) {
                 echo 'Failed' . $e -> getMessage();
             }
-            // affichage
-            $annonces = $conn->query('SELECT * FROM `annonce`');
-            $annonces->execute();
-            $response = $annonces->fetchAll();
-                   
-?>
-
+            
+              // affichage
+              $annonces = $conn->query('SELECT * FROM `annonce`');
+              $annonces->execute();
+              $response = $annonces->fetchAll();
+  
+            ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,44 +53,46 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body"> 
-                    <form id="Addform" name=formAdd method="post">
+                    <form action="insert.php" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="Titre" class="form-label">TITRE</label>
-                        <input type="text" class="form-control" id="Titre">
+                        <input type="text" name="titre" class="form-control" id="Titre">
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">IMAGE</label>
-                        <input type="text" class="form-control" id="image">
+                        <input type="file" name="img" class="form-control" id="image">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">DESCRIPTION</label>
-                        <input type="text" class="form-control" id="description">
+                        <input type="text" name="Description" class="form-control" id="description">
                     </div>
                     <div class="mb-3">
                         <label for="superficie" class="form-label">SUPERFICIE</label>
-                        <input type="text" class="form-control" id="superficie">
+                        <input type="number" name="Superficie"  class="form-control" id="superficie">
                     </div>
                     <div class="mb-3">
                         <label for="adresse" class="form-label">ADRESSE</label>
-                        <input type="text" class="form-control" id="adresse">
+                        <input type="text" name="Adresse" class="form-control" id="adresse">
                     </div>
                     <div class="mb-3">
                         <label for="mintant" class="form-label">MONTANT</label>
-                        <input type="text" class="form-control" id="montant">
+                        <input type="text" name="Montant" class="form-control" id="montant">
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">DATE</label>
-                        <input type="date" class="form-control" id="date">
+                        <input type="date" name="Date" class="form-control" id="date">
                     </div>
                     <div class="mb-3">
                         <label for="type" class="form-label">TYPE</label>
-                        <input type="text" class="form-control" id="type">
+                        <input type="text" name="Type" class="form-control" id="type">
                     </div>
-                    </form>
+                   
                 </div>
                 <div class="modal-footer"> 
-                    <input type="button" name="add" class="btn btn-dark" value="save to dtabase" id="btnAdd">
+            
+                    <input type="submit" name="Addbtn" class="btn btn-dark" value="ADD">
                 </div>
+                </form>
                 </div>
             </div>
             </div>
@@ -108,8 +110,8 @@
                             <h5 style='color:#3F34B8;'>".$ligne['Montant']."</h5>
                             <p style='font-size:15px; color:red'>CONSULTER PRIX</p>
                             <form action='delet.php' method='POST'>
-                            <input type='number' value=".$ligne["ID"]." class='btn btn-danger d-none' name='id' id='id'>
-                            <input type='submit' class='btn btn-danger' value='Delete'>
+                            <input type='number' value=".$ligne["ID"]." class='btn btn-danger d-none' name='ID' id='id'>
+                            <input type='submit' class='btn btn-danger' value='Delete' >
                             </form>
                         </div>"
                 ?>
@@ -120,52 +122,6 @@
            
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-<script>
-    // ADD NEW ANNONCE
-$(document).ready(function(){
-    $('#btnAdd').on('click',function(){
-        $('#btnAdd').attr("disabled","disabled");
-        var addTitre = $('#Titre').val();
-        var addIMG = $('#image').val();
-        var addDescription = $('#description').val();
-        var addSuperficie = $('#superficie').val();
-        var addAdresse = $('#adresse').val();
-        var addMontant = $('#montant').val();
-        var addDate = $('#date').val();
-        var addType = $('#type ').val();
-        if (addTitre!="" && addIMG!="" && addDescription!="" && addSuperficie!="" && addAdresse!="" && addMontant!="" && addDate!="" && addType){
-            $.ajax({
-            url : "insert.php",
-            methode : 'POST ',
-            data:{
-                titreSend:addTitre,
-                IMGsend: addIMG ,
-                descriptionSend:addDescription,
-                superficieSend:addSuperficie,
-                adresseSend:addAdresse,
-                montantSend:addMontant,
-                dateSend:addDate,
-                typeSend:addType
-
-            },
-            catch: false,
-            success : function(dataResult){
-                var dataResult = JSON.parse(dataResult);
-                if(dataResult.statusCode==200){
-                    $('#btnAdd').removeAttr("disabled");
-                    $('Addform').find('input:text'.val(''));
-                }else if(dataResult.statusCode==201){
-                    alert("error occured!")
-                }
-            }
-            });
-        };
-});
-});
-
-    
- 
-</script>
 
 </body>
 </html>

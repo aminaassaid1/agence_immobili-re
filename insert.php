@@ -1,21 +1,30 @@
-<?php
-include 'index.php';
+<?php 
+$srvname ='mysql:host=localhost;dbname=agence_immobilière';
+$user = 'root';
+$pass = "";
+//connect
+try {
+    $conn = new PDO($srvname,$user,$pass); //start A new Connection with PDO
+}
+catch  (PDOException $e ) {
+    echo 'Failed' . $e -> getMessage();
+}
 
-$titre =$_POST['titreSend'];
-$img = $_POST['IMGsend'];
-$description = $_POST['descriptionSend'];
-$superficie = $_POST['superficieSend'];
-$adress= $_POST['adresseSend'];
-$montant= $_POST['montantSend'];
-$date = $_POST['dateSend'];
-$type = $_POST['typeSend'];
-    $sql ="INSERT INTO `annonce`(`ID`, `titre`, `image`, `description`, `Superficie`, `adresse`, `Montant`, `Date`, `Type_annonce`) 
-    VALUE ('$titre','$img','$description','$superficie','$adress','$montant','$date','$type')";
-    if (mysql_query($conn,$sql)){
-        echo json_decode(array("statusCode"=>200));
-    }else{
-        echo json_decode(array("statusCode"=>201));
-    }
-    mysli_close($conn);
-
+                        // ADD NEW ANNONCES
+                        $titre =$_POST['titre'];
+                        $img = $_FILES['img']['name'];
+                        $description = $_POST['Description'];
+                        $superficie = $_POST['Superficie'];
+                        $adress= $_POST['Adresse'];
+                        $montant= $_POST['Montant'];
+                        $date = $_POST['Date'];
+                        $type = $_POST['Type'];
+                        echo "helo";
+                        move_uploaded_file($_FILES['img']['tmp_name'], "./".$img);
+                        $AddAnnonces = $conn->query("INSERT INTO `annonce`( `titre`, `image`, `description`, `Superficie`, `adresse`, `Montant`, `Date`, `Type_annonce`) 
+                        VALUE ('$titre','$img','$description','$superficie','$adress','$montant','$date','$type')");
+                header('Location: index.php');
+                exit();
+            
+                   
 ?>
