@@ -84,7 +84,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="type" class="form-label">TYPE</label>
-                        <select class='form-select' aria-label='.form-select-sm example'>
+                        <select class='form-select' name="Type" aria-label='.form-select-sm example'>
                             <option value=''></option>
                             <option value='location'>location</option>
                             <option value='Vente'>Vente</option>
@@ -137,15 +137,15 @@
                             <h5 style='color:#3F34B8;'>".$ligne['Montant']."</h5>
                             <p>".$ligne['description']."</p>
                             <form action='delet.php' method='POST'>
-                            <input type='number' value=".$ligne['ID']." class='btn btn-danger d-none' name='ID' id='id'>
+                            <input type='number' value=".$ligne["ID"]." class='btn btn-danger d-none' name='ID' id='id'>
                             <input type='submit' class='btn btn-danger' value='Delete' >
-                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target=#".$ligne['ID'].">Edit</button>
+                            <button type='button' class='btn btn-dark' data-bs-toggle='modal' data-bs-target=#".$ligne["ID"].">Edit</button>
                             </form>
                         </div>
 
                         
                         <!-- POPUP EDITE-->
-                        <div class='modal fade' id=".$ligne['ID']." tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                        <div class='modal fade' id=".$ligne["ID"]." tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                        <div class='modal-dialog'>
                            <div class='modal-content'>
                            <div class='modal-header'>
@@ -175,7 +175,7 @@
                                    <input type='text' name='Adresseedit' class='form-control' id='adresse'>
                                </div>
                                <div class='mb-3'>
-                                   <label for='mintant' class='form-label'>MONTANT</label>
+                                   <label for='montant' class='form-label'>MONTANT</label>
                                    <input type='number' name='Montantedit' class='form-control' id='montant'>
                                </div>
                                <div class='mb-3'>
@@ -183,16 +183,12 @@
                                    <input type='date' name='Dateedit' class='form-control' id='date'>
                                </div>
                                <div class='mb-3'>
-                                   <label for='type' class='form-label'>TYPE</label>
-                                   <select class='form-select' aria-label='.form-select-sm example'>
-                                         <option value=''></option>
-                                        <option value='location'>location</option>
-                                        <option value='Vente'>Vente</option>
-                                     </select>
-                               </div>
+                                <label for=type' class='form-label'>TYPE</label>
+                                <input type='text' name='Typeedit' class='form-control' id='type'>
+                                </div>
                                <div class='mb-3'>
                                    <label for='ID' class='form-label'></label>
-                                   <input type='hidden' name='IDedit' class='form-control' id='ID' value=".$ligne['ID'].">
+                                   <input type='hidden' name='IDedit' class='form-control' id='ID' value=".$ligne["ID"].">
                                </div>
                               
                            </div>

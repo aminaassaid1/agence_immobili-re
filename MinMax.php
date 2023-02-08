@@ -19,7 +19,7 @@ catch  (PDOException $e ) {
                     $PrixMax = $_POST['Max'];
 
 
-                    $Search = $conn->prepare("SELECT * FROM annonce WHERE 'Type_annonce' = '$typeSelect' AND Montant BETWEEN '$PrixMin' AND '$PrixMax'");
+                    $Search = $conn->prepare("SELECT * FROM annonce WHERE `Type_annonce` = '$typeSelect' AND Montant BETWEEN '$PrixMin' AND '$PrixMax'");
                     $Search->execute();
                     $SearchResponse = $Search->fetchAll();
                     
@@ -81,15 +81,14 @@ catch  (PDOException $e ) {
                            </div>
                            <div class='mb-3'>
                                <label for='type' class='form-label'>TYPE</label>
-                               <select class='form-select' aria-label='.form-select-sm example'>
-                                    <option value=''></option>
-                                    <option value='location'>location</option>
-                                    <option value='Vente'>Vente</option>
-                                </select>
+                               <div class='mb-3'>
+                                <label for=type' class='form-label'>TYPE</label>
+                                <input type='text' name='Typeedit' class='form-control' id='type'>
+                                </div>
                            </div>
                            <div class='mb-3'>
                                <label for='ID' class='form-label'></label>
-                               <input type='hidden' name='IDedit' class='form-control' id='ID' value=".$res['ID'].">
+                               <input type='hidden' name='IDedit' class='form-control' id='ID' value=".$res["ID"].">
                            </div>
                           
                        </div>
